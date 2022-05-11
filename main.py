@@ -21,7 +21,7 @@ import plotly.offline as py
 
 image = Image.open('banner.jpg')
 st.image(image, caption='Dadehkav Stock Prediction App')
-st.title('Stock Prediction App (30 Minutes Interval)')
+st.title('Stock Prediction App (4 H Minutes Interval)')
 
 today = dt.date.today()
 
