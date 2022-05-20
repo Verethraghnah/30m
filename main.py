@@ -21,11 +21,11 @@ import plotly.offline as py
 
 image = Image.open('banner.jpg')
 st.image(image, caption='Dadehkav Stock Prediction App')
-st.title('Stock Prediction App (15 Minutes Interval)')
+st.title('Stock Prediction App (1H Interval)')
 
 today = dt.date.today()
 
-before = today - dt.timedelta(days=5)
+before = today - dt.timedelta(days=35)
 start_date = st.sidebar.date_input('Start date', before)
 end_date = st.sidebar.date_input('End date', today)
 
@@ -45,7 +45,7 @@ crypotocurrencies = (
 selected_stock = st.selectbox('Select dataset for prediction', crypotocurrencies)
 
 n_years = st.slider('Hours of prediction:', 12, 72)
-period = n_years
+period = n_years * 24
 
 
 @st.cache
@@ -61,12 +61,12 @@ data_load_state.text('Loading data... done!')
 
 st.subheader('Raw data')
 st.write(data.tail())
-data.reset_index(inplace=True)
+
 
 # Prophet model
 
-df_train = data[['Datetime', 'Close']]
-df_train = df_train.rename(columns={"Datetime": "ds", "Close": "y"})
+df_train = data[['index', 'Close']]
+df_train = df_train.rename(columns={"index": "ds", "Close": "y"})
 df_train['ds'] = pd.to_datetime(df_train['ds'], errors='coerce', utc=True )
 df_train['ds'] = df_train['ds'].dt.strftime('%Y-%m-%d %H:%M')
 r = px.line(df_train, x='ds', y='y')
@@ -81,11 +81,11 @@ if sidebar_function == "Neural Networks":
                                         # trend_reg_threshold=False,
                                         yearly_seasonality=False,
                                         weekly_seasonality='auto',
-                                        daily_seasonality=8,
+                                        daily_seasonality='auto',
                                         seasonality_mode="multiplicative",
                                         epochs=250,
                                         loss_func="Huber",
-                                        normalize="soft",
+                                        normalize="standardize",
                                         impute_missing=True,
                                         num_hidden_layers=2,
                                         d_hidden=2,
