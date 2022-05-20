@@ -25,7 +25,7 @@ st.title('Stock Prediction App (15 Minutes Interval)')
 
 today = dt.date.today()
 
-before = today - dt.timedelta(days=15)
+before = today - dt.timedelta(days=5)
 start_date = st.sidebar.date_input('Start date', before)
 end_date = st.sidebar.date_input('End date', today)
 
