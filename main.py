@@ -61,11 +61,11 @@ data_load_state.text('Loading data... done!')
 
 st.subheader('Raw data')
 st.write(data.tail())
-
+data.reset_index(inplace=True)
 
 # Prophet model
 
-df_train = data[['index', 'Close']]
+df_train = data[['Datetime', 'Close']]
 df_train = df_train.rename(columns={"Datetime": "ds", "Close": "y"})
 df_train['ds'] = pd.to_datetime(df_train['ds'], errors='coerce', utc=True )
 df_train['ds'] = df_train['ds'].dt.strftime('%Y-%m-%d %H:%M')
